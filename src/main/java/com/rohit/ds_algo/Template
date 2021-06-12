@@ -1,0 +1,71 @@
+https://stackoverflow.com/questions/462297/how-to-use-classt-in-java
+
+T is type parameters (also called type variables); delimited by angle brackets (<>), follows the class name.
+T is just a symbol, like a variable name (can be any name) declared during writing of the class file. Later that T will be substituted with
+valid Class name during initialization (HashMap<String> map = new HashMap<String>();)
+
+e.g) class name<T1, T2, ..., Tn>
+
+So Class<T> represents a class object of specific class type 'T'.
+
+Assume that your class methods has to work with unknown type parameters like below
+
+	/**
+	 * Generic version of the Car class.
+	 * @param <T> the type of the value
+	 */
+	public class Car<T> {
+	    // T stands for "Type"
+	    private T t;
+	
+	    public void set(T t) { this.t = t; }
+	    public T get() { return t; }
+	}
+Here T can be used as String type as CarName
+
+OR T can be used as Integer type as modelNumber,
+
+OR T can be used as Object type as valid car instance.
+
+Now here the above is the simple POJO which can be used differently at runtime.
+Collections e.g) List, Set, Hashmap are best examples which will work with different objects as per the declaration of T, but once we declared T as String
+e.g) HashMap<String> map = new HashMap<String>(); Then it will only accept String Class instance objects.
+
+
+Generic Methods
+
+Generic methods are methods that introduce their own type parameters. This is similar to declaring a generic type, but the type parameter's scope is limited to the method where it is declared. Static and non-static generic methods are allowed, as well as generic class constructors.
+
+The syntax for a generic method includes a type parameter, inside angle brackets, and appears before the method's return type. For generic methods, the type parameter section must appear before the method's return type.
+
+ class Util {
+    // Generic static method
+    public static <K, V, Z, Y> boolean compare(Pair<K, V> p1, Pair<Z, Y> p2) {
+        return p1.getKey().equals(p2.getKey()) &&
+               p1.getValue().equals(p2.getValue());
+    }
+}
+
+ class Pair<K, V> {
+
+    private K key;
+    private V value;
+}
+Here <K, V, Z, Y> is the declaration of types used in the method arguments which should before the return type which is boolean here.
+
+In the below; type declaration <T> is not required at method level, since it is already declared at class level.
+
+class MyClass<T> {
+   private  T myMethod(T a){
+       return  a;
+   }
+}
+But below is wrong as class-level type parameters K, V, Z, and Y cannot be used in a static context (static method here).
+
+class Util <K, V, Z, Y>{
+    // Generic static method
+    public static  boolean compare(Pair<K, V> p1, Pair<Z, Y> p2) {
+        return p1.getKey().equals(p2.getKey()) &&
+               p1.getValue().equals(p2.getValue());
+    }
+}
